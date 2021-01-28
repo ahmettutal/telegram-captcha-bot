@@ -490,6 +490,7 @@ def new_member_join(update: Update, context: CallbackContext):
                 chat_link = "@{}".format(chat_link)
                 save_config_property(chat_id, "Link", chat_link)
             # Ignore Admins
+            print("new_member_join join_by_id tlg_user_is_admin {} {} {}".format(bot, join_user_id, chat_id))
             if tlg_user_is_admin(bot, join_user_id, chat_id):
                 printts("[{}] User is an administrator.".format(chat_id))
                 printts("Skipping the captcha process.")
@@ -498,6 +499,9 @@ def new_member_join(update: Update, context: CallbackContext):
             join_by = getattr(update_msg, "from_user", None)
             if join_by:
                 join_by_id = update_msg.from_user.id
+
+                print("new_member_join join_by_id tlg_user_is_admin {} {} {}".format(bot, join_by_id, chat_id))
+
                 if tlg_user_is_admin(bot, join_by_id, chat_id):
                     printts("[{}] User has been added by an administrator.".format(chat_id))
                     printts("Skipping the captcha process.")
@@ -1019,6 +1023,9 @@ def cmd_language(update: Update, context: CallbackContext):
     tlg_msg_to_selfdestruct(update_msg)
     # Get actual chat configured language
     lang = get_chat_config(chat_id, "Language")
+
+    print("cmd_language tlg_user_is_admin {} {} {}".format(bot, user_id, chat_id))
+
     # Check if command was execute by an Admin
     is_admin = tlg_user_is_admin(bot, user_id, chat_id)
     if is_admin is None:
@@ -1065,6 +1072,9 @@ def cmd_time(update: Update, context: CallbackContext):
     tlg_msg_to_selfdestruct(update_msg)
     # Get actual chat configured language
     lang = get_chat_config(chat_id, "Language")
+
+    print("cmd_time tlg_user_is_admin {} {} {}".format(bot, user_id, chat_id))
+
     # Check if command was execute by an Admin
     is_admin = tlg_user_is_admin(bot, user_id, chat_id)
     if is_admin is None:
@@ -1111,6 +1121,9 @@ def cmd_difficulty(update: Update, context: CallbackContext):
     tlg_msg_to_selfdestruct(update_msg)
     # Get actual chat configured language
     lang = get_chat_config(chat_id, "Language")
+
+    print("cmd_difficulty tlg_user_is_admin {} {} {}".format(bot, user_id, chat_id))
+
     # Check if command was execute by an Admin
     is_admin = tlg_user_is_admin(bot, user_id, chat_id)
     if is_admin is None:
@@ -1156,6 +1169,9 @@ def cmd_captcha_mode(update: Update, context: CallbackContext):
     tlg_msg_to_selfdestruct(update_msg)
     # Get actual chat configured language
     lang = get_chat_config(chat_id, "Language")
+
+    print("cmd_captcha_mode tlg_user_is_admin {} {} {}".format(bot, user_id, chat_id))
+
     # Check if command was execute by an Admin
     is_admin = tlg_user_is_admin(bot, user_id, chat_id)
     if is_admin is None:
@@ -1197,6 +1213,9 @@ def cmd_welcome_msg(update: Update, context: CallbackContext):
     tlg_msg_to_selfdestruct(update_msg)
     # Get actual chat configured language
     lang = get_chat_config(chat_id, "Language")
+
+    print("cmd_welcome_msg tlg_user_is_admin {} {} {}".format(bot, user_id, chat_id))
+
     # Check if command was execute by an Admin
     is_admin = tlg_user_is_admin(bot, user_id, chat_id)
     if is_admin is None:
@@ -1243,6 +1262,9 @@ def cmd_restrict_non_text(update: Update, context: CallbackContext):
     tlg_msg_to_selfdestruct(update_msg)
     # Get actual chat configured language
     lang = get_chat_config(chat_id, "Language")
+
+    print("cmd_restrict_non_text tlg_user_is_admin {} {} {}".format(bot, user_id, chat_id))
+
     # Check if command was execute by an Admin
     is_admin = tlg_user_is_admin(bot, user_id, chat_id)
     if is_admin is None:
@@ -1296,6 +1318,9 @@ def cmd_add_ignore(update: Update, context: CallbackContext):
     tlg_msg_to_selfdestruct(update_msg)
     # Get actual chat configured language
     lang = get_chat_config(chat_id, "Language")
+
+    print("cmd_add_ignore tlg_user_is_admin {} {} {}".format(bot, user_id, chat_id))
+
     # Check if command was execute by an Admin
     is_admin = tlg_user_is_admin(bot, user_id, chat_id)
     if is_admin is None:
@@ -1346,6 +1371,9 @@ def cmd_remove_ignore(update: Update, context: CallbackContext):
     tlg_msg_to_selfdestruct(update_msg)
     # Get actual chat configured language
     lang = get_chat_config(chat_id, "Language")
+
+    print("cmd_remove_ignore tlg_user_is_admin {} {} {}".format(bot, user_id, chat_id))
+
     # Check if command was execute by an Admin
     is_admin = tlg_user_is_admin(bot, user_id, chat_id)
     if is_admin is None:
@@ -1387,6 +1415,9 @@ def cmd_ignore_list(update: Update, context: CallbackContext):
     tlg_msg_to_selfdestruct(update_msg)
     # Get actual chat configured language
     lang = get_chat_config(chat_id, "Language")
+
+    print("cmd_ignore_list tlg_user_is_admin {} {} {}".format(bot, user_id, chat_id))
+
     # Check if command was execute by an Admin
     is_admin = tlg_user_is_admin(bot, user_id, chat_id)
     if is_admin is None:
@@ -1422,6 +1453,9 @@ def cmd_enable(update: Update, context: CallbackContext):
     tlg_msg_to_selfdestruct(update_msg)
     # Get actual chat configured language
     lang = get_chat_config(chat_id, "Language")
+
+    print("cmd_enable tlg_user_is_admin {} {} {}".format(bot, user_id, chat_id))
+
     # Check if command was execute by an Admin
     is_admin = tlg_user_is_admin(bot, user_id, chat_id)
     if is_admin is None:
@@ -1459,6 +1493,9 @@ def cmd_disable(update: Update, context: CallbackContext):
     tlg_msg_to_selfdestruct(update_msg)
     # Get actual chat configured language
     lang = get_chat_config(chat_id, "Language")
+
+    print("cmd_disable tlg_user_is_admin {} {} {}".format(bot, user_id, chat_id))
+
     # Check if command was execute by an Admin
     is_admin = tlg_user_is_admin(bot, user_id, chat_id)
     if is_admin is None:
