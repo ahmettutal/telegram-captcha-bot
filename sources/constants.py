@@ -3,8 +3,9 @@
 ###############################################################################
 ### Imported modules ###
 
-from os import path as os_path
 from os import getenv as os_getenv
+from os import path as os_path
+
 from settings import SETTINGS
 
 ###############################################################################
@@ -178,25 +179,8 @@ CONST = {
     # List string of supported languages commands shows in invalid
     # language set
     "SUPPORTED_LANGS_CMDS": \
-        "\nArabic / Arabic\n/language ar\n" \
-        "\nBasque / Euskal\n/language eu\n" \
-        "\nCatalan / Català\n/language ca\n" \
-        "\nChinese-Simplified / 中文\n/language zh_cn\n" \
-        "\nDutch / Nederlands\n/language nl\n" \
         "\nEnglish / English\n/language en\n" \
-        "\nEsperanto\n/language eo\n" \
-        "\nFrench / Francais\n/language fr\n" \
-        "\nGalician / Galego\n/language gl\n" \
-        "\nGerman / Deutsch\n/language de\n" \
-        "\nIndonesian / Indonesia\n/language id\n" \
-        "\nItalian / Italiano\n/language it\n" \
-        "\nKannada / Kannada\n/language kn\n" \
-        "\nPolish / Polskie\n/language pl\n" \
-        "\nPortuguese-Brazil / Português-Brasil\n/language pt_br\n" \
-        "\nRussian / Pусский\n/language ru\n" \
-        "\nSpanish / Español\n/language es\n" \
-        "\nTurkish / Türkçe\n/language tr\n" \
-        "\nUkrainian / Українську\n/language uk\n",
+        "\nTurkish / Türkçe\n/language tr\n",
 
     # Bot developer
     "DEVELOPER": "@atutal",
@@ -216,23 +200,6 @@ CONST = {
 
 # Supported languages list
 TEXT = {
-    "AR": {},  # Arabic
-    "CA": {},  # Catalan
-    "DE": {},  # German
     "EN": {},  # English
-    "EO": {},  # Esperanto
-    "ES": {},  # Spanish
-    "EU": {},  # Basque
-    "FR": {},  # French
-    "GL": {},  # Galician
-    "ID": {},  # Indonesian
-    "IT": {},  # Italian
-    "KN": {},  # Kannada
-    "NL": {},  # Dutch
-    "PL": {},  # Polish
-    "PT_BR": {},  # Portuguese (Brasil)
-    "RU": {},  # Rusian
-    "TR": {},  # Turkish
-    "UK": {},  # Ukrainian
-    "ZH_CN": {}  # Chinese (Mainland)
+    "TR": {}  # Turkish
 }
