@@ -25,7 +25,7 @@ ARG BOT_TOKEN
 
 # Default language (override when building -- must be all CAPS.)
 # check Makefile for a list of supported languages
-ARG BOT_LANG="EN"
+ARG BOT_LANG="TR"
 
 # Export ARGs as ENV vars so they can be shared among steps
 ENV BOT_PROJECT="${BOT_PROJECT}" \

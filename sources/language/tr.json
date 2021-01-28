@@ -32,7 +32,7 @@
     "IGNORE_LIST_REMOVE_NOT_IN_LIST": "Bu kimlik yoksay listesinde değil, hiçbir şey yapılmadı.",
     "IGNORE_LIST_EMPTY": "Sohbet listesi yoksay boş.",
     "NEW_USER_CAPTCHA_CAPTION": "Merhaba {}, {} grubuna hoş geldin, lütfen insan olduğunuzu doğrulamak için bu resimde görünen rakamları ve/veya harfleri içeren bir mesaj yazın. Eğer captcha'yı {} dakika içinde çözmezseniz, otomatik olarak gruptan atılacaksınız.",
-    "NEW_USER_BUTTON_MODE": "Hello {}, welcome to {}. Please press the button below to verify that you are a human. If you don't do this in {} mins, you will be automatically kicked out of the group.\n\n[This text needs translate to actual configured language]",
+    "NEW_USER_BUTTON_MODE": "Merhaba {}, {} grubuna hoş geldiniz. Bir insan olduğunuzu doğrulamak için lütfen aşağıdaki düğmeye basın. Bunu 5 dakika içinde yapmazsanız, otomatik olarak gruptan atılacaksınız.",
     "CAPTCHA_SOLVED": "Captcha çözüldü, kullanıcı doğrulandı.\nGruba hoş geldiniz {}",
     "CAPTCHA_INCORRECT_0": "Doğru kod bu değil. Tekrar deneyin...",
     "CAPTCHA_INCORRECT_1": "Bu doğru sayı değil. Yakından kontrol edin, captcha'nın 4 numarası var...",

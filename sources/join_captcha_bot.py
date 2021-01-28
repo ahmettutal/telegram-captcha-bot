@@ -892,6 +892,9 @@ def button_request_captcha(bot, query):
 def button_request_pass(bot, query):
     '''Button "I'm not a bot" pressed handler'''
     global new_users
+
+    print("query: {}".format(query))
+
     # Get query data
     chat_id = query.message.chat_id
     user_id = query.from_user.id
@@ -957,7 +960,7 @@ def cmd_start(update: Update, context: CallbackContext):
     chat_id = update_msg.chat_id
     chat_type = update_msg.chat.type
     if chat_type == "private":
-        tlg_send_msg(bot, chat_id, TEXT["EN"]["START"])
+        tlg_send_msg(bot, chat_id, TEXT["TR"]["START"])
     else:
         lang = get_chat_config(chat_id, "Language")
         tlg_msg_to_selfdestruct(update_msg)
@@ -974,7 +977,7 @@ def cmd_help(update: Update, context: CallbackContext):
     chat_id = update_msg.chat_id
     chat_type = update_msg.chat.type
     if chat_type == "private":
-        tlg_send_msg(bot, chat_id, TEXT["EN"]["HELP"])
+        tlg_send_msg(bot, chat_id, TEXT["TR"]["HELP"])
     else:
         lang = get_chat_config(chat_id, "Language")
         tlg_msg_to_selfdestruct(update_msg)
@@ -991,7 +994,7 @@ def cmd_commands(update: Update, context: CallbackContext):
     chat_id = update_msg.chat_id
     chat_type = update_msg.chat.type
     if chat_type == "private":
-        tlg_send_msg(bot, chat_id, TEXT["EN"]["COMMANDS"])
+        tlg_send_msg(bot, chat_id, TEXT["TR"]["COMMANDS"])
     else:
         lang = get_chat_config(chat_id, "Language")
         tlg_msg_to_selfdestruct(update_msg)
@@ -1519,7 +1522,7 @@ def cmd_version(update: Update, context: CallbackContext):
     chat_id = update_msg.chat_id
     chat_type = update_msg.chat.type
     if chat_type == "private":
-        msg_text = TEXT["EN"]["VERSION"].format(CONST["VERSION"])
+        msg_text = TEXT["TR"]["VERSION"].format(CONST["VERSION"])
         tlg_send_msg(bot, chat_id, msg_text)
     else:
         lang = get_chat_config(chat_id, "Language")
@@ -1538,7 +1541,7 @@ def cmd_about(update: Update, context: CallbackContext):
     chat_id = update_msg.chat_id
     chat_type = update_msg.chat.type
     if chat_type == "private":
-        msg_text = TEXT["EN"]["ABOUT_MSG"].format(CONST["DEVELOPER"], CONST["REPOSITORY"],
+        msg_text = TEXT["TR"]["ABOUT_MSG"].format(CONST["DEVELOPER"], CONST["REPOSITORY"],
                                                   CONST["DEV_PAYPAL"], CONST["DEV_BTC"])
     else:
         lang = get_chat_config(chat_id, "Language")
@@ -1919,8 +1922,8 @@ def main():
     dp.add_handler(CommandHandler("ignore_list", cmd_ignore_list))
     dp.add_handler(CommandHandler("enable", cmd_enable))
     dp.add_handler(CommandHandler("disable", cmd_disable))
-    dp.add_handler(CommandHandler("version", cmd_version))
-    dp.add_handler(CommandHandler("about", cmd_about))
+    # dp.add_handler(CommandHandler("version", cmd_version))
+    # dp.add_handler(CommandHandler("about", cmd_about))
     if (CONST["BOT_OWNER"] != "XXXXXXXXX"):
         dp.add_handler(CommandHandler("captcha", cmd_captcha))
         dp.add_handler(CommandHandler("whitelist", cmd_whitelist, pass_args=True))

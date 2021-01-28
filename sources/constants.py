@@ -132,7 +132,7 @@ CONST = {
     "INIT_LINK": "Unknown",
 
     # Initial language at Bot start
-    "INIT_LANG": "EN",
+    "INIT_LANG": "TR",
 
     # Number of seconds in a day (60s x 60m x 24h)
     "T_SECONDS_IN_A_DAY": 86400,
