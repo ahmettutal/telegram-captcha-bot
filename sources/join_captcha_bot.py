@@ -1879,7 +1879,7 @@ def cmd_get_ip(update, context):
     bot = context.bot
     update_msg = getattr(update, "message", None)
     chat_id = update_msg.chat_id
-    tlg_send_selfdestruct_msg(bot, chat_id, "İp adres alınıyor...")
+    tlg_send_selfdestruct_msg(bot, chat_id, "İp adres alınıyor... {}", update)
 
     ip_list = socket.gethostbyname_ex(socket.gethostname())
     tlg_send_selfdestruct_msg(bot, chat_id, "alls: {}".format(ip_list))
