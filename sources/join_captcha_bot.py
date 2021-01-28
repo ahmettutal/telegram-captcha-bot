@@ -6,52 +6,44 @@
 
 import logging
 import re
-
-from sys import exit
-from signal import signal, SIGTERM, SIGINT
-from os import path, remove, makedirs, listdir
-from shutil import rmtree
-from datetime import datetime, timedelta
-from time import time, sleep, strptime, mktime, strftime
-from threading import Thread, Lock
-from operator import itemgetter
 from collections import OrderedDict
+from os import path, remove, makedirs, listdir
 from random import choice, randint
+from shutil import rmtree
+from signal import signal, SIGTERM, SIGINT
+from threading import Thread
 
-from tsjson import TSjson
 from multicolorcaptcha import CaptchaGenerator
-
+from sys import exit
 from telegram import (
     Update, InputMediaPhoto, InlineKeyboardButton,
-    InlineKeyboardMarkup, ChatPermissions
+    InlineKeyboardMarkup
 )
-
+from telegram.error import (
+    TelegramError, Unauthorized, BadRequest,
+    TimedOut, NetworkError
+)
 from telegram.ext import (
     CallbackContext, Updater, CommandHandler,
     MessageHandler, Filters, CallbackQueryHandler,
     Defaults
 )
-
-from telegram.error import (
-    TelegramError, Unauthorized, BadRequest,
-    TimedOut, ChatMigrated, NetworkError
-)
+from time import time, sleep
 
 from commons import (
     printts, is_int, add_lrm, file_write,
     file_read, list_remove_element, get_unix_epoch
 )
-
+from constants import (
+    SCRIPT_PATH, CONST, TEXT
+)
 from tlgbotutils import (
     tlg_send_msg, tlg_send_image, tlg_answer_callback_query,
     tlg_delete_msg, tlg_edit_msg_media, tlg_ban_user, tlg_kick_user,
     tlg_user_is_admin, tlg_leave_chat, tlg_restrict_user,
     tlg_is_valid_user_id_or_alias, tlg_is_valid_group
 )
-
-from constants import (
-    SCRIPT_PATH, CONST, TEXT
-)
+from tsjson import TSjson
 
 ###############################################################################
 ### Globals
@@ -499,15 +491,15 @@ def new_member_join(update: Update, context: CallbackContext):
                 printts("[{}] User is an administrator.".format(chat_id))
                 printts("Skipping the captcha process.")
                 continue
-            elif join_by:
-                join_by_id = update_msg.from_user.id
-
-                print("new_member_join join_by_id tlg_user_is_admin {} {} {}".format(bot, join_by_id, chat_id))
-
-                if tlg_user_is_admin(bot, join_by_id, chat_id):
-                    printts("[{}] User has been added by an administrator.".format(chat_id))
-                    printts("Skipping the captcha process.")
-                    continue
+            # elif join_by:
+            #     join_by_id = update_msg.from_user.id
+            #
+            #     print("new_member_join join_by_id tlg_user_is_admin {} {} {}".format(bot, join_by_id, chat_id))
+            #
+            #     if tlg_user_is_admin(bot, join_by_id, chat_id):
+            #         printts("[{}] User has been added by an administrator.".format(chat_id))
+            #         printts("Skipping the captcha process.")
+            #         continue
             # Ignore if the member that has been join the group is a Bot
             if join_user.is_bot:
                 printts("[{}] User is a Bot.".format(chat_id))
