@@ -221,17 +221,19 @@ def tlg_user_is_admin(bot, user_id, chat_id, timeout=None):
     by IDs'''
     # Check if it is an Admin with anonymous config enabled
     if user_id == ANONYMOUS_ADMIN_ID:
+        print("tlg_user_is_admin user_id = ANONYMOUS_ADMIN_ID")
         return True
     # Get group Admins
     try:
         group_admins = bot.get_chat_administrators(chat_id=chat_id,
                                                    timeout=timeout)
     except Exception as e:
-        printts("[{}] {}".format(chat_id, str(e)))
+        printts("[{}] {} errorz".format(chat_id, str(e)))
         return None
     # Check if the user is one of the group Admins
     for admin in group_admins:
         if user_id == admin.user.id:
+            print("tlg_user_is_admin user_id ({}) in admins".format(user_id))
             return True
     return False
 

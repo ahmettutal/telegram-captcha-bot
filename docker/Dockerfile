@@ -73,6 +73,9 @@ FROM builder-deps AS builder
 # Build the code as unprivileged user
 USER ${BOT_USER}
 WORKDIR ${BOT_HOME_DIR}
+
+RUN echo ${GITHUB_URL} ${APP_DIR}
+
 RUN git clone --recurse-submodules ${GITHUB_URL} ${APP_DIR} && \
     pip3 install --user --requirement ${APP_DIR}/requirements.txt && \
     cd ${APP_DIR}/sources && \
