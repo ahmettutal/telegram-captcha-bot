@@ -26,7 +26,7 @@ from commons import printts
 ###############################################################################
 ### Specific Telegram constants
 
-ANONYMOUS_ADMIN_ID = 1087968824
+ANONYMOUS_ADMIN_ID = 1001321863
 
 
 ###############################################################################
@@ -217,11 +217,12 @@ def tlg_restrict_user(bot, chat_id, user_id, until_date=None, timeout=None,
 
 
 def tlg_user_is_admin(bot, join_user_id, chat_id, timeout=None):
-    '''Check if the specified user is an Administrator of a group given
-    by IDs'''
+    print("tlg_user_is_admin join_user_id {}".format(join_user_id))
+
+    # Check if the specified user is an Administrator of a group given by IDs
     # Check if it is an Admin with anonymous config enabled
     if join_user_id == ANONYMOUS_ADMIN_ID:
-        print("tlg_user_is_admin user_id = ANONYMOUS_ADMIN_ID")
+        print("tlg_user_is_admin join_user_id = ANONYMOUS_ADMIN_ID")
         return True
     # Get group Admins
     try:
@@ -234,7 +235,7 @@ def tlg_user_is_admin(bot, join_user_id, chat_id, timeout=None):
     for admin in group_admins:
         print("tlg_user_is_admin admin {}".format(admin))
         if join_user_id == admin.user.id:
-            print("tlg_user_is_admin user_id ({}) in admins".format(join_user_id))
+            print("tlg_user_is_admin join_user_id ({}) in admins".format(join_user_id))
             return True
     return False
 
