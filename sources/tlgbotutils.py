@@ -217,7 +217,7 @@ def tlg_restrict_user(bot, chat_id, user_id, until_date=None, timeout=None,
 
 
 def tlg_user_is_admin(bot, join_user_id, chat_id, timeout=None):
-    print("tlg_user_is_admin join_user_id {}".format(join_user_id))
+    print("tlg_user_is_admin begin with join_user_id {}".format(join_user_id))
 
     # Check if the specified user is an Administrator of a group given by IDs
     # Check if it is an Admin with anonymous config enabled
@@ -241,8 +241,7 @@ def tlg_user_is_admin(bot, join_user_id, chat_id, timeout=None):
 
 
 def tlg_get_chat_type(bot, chat_id_or_alias, timeout=None):
-    '''Telegram check if a chat exists and what type it is (user, group, '''
-    '''channel).'''
+    '''Telegram check if a chat exists and what type it is (user, group, channel).'''
     chat_type = None
     chat_result = tlg_get_chat(bot, chat_id_or_alias, timeout)
     if chat_result["chat_data"] is not None:
