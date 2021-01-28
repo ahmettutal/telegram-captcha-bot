@@ -216,11 +216,11 @@ def tlg_restrict_user(bot, chat_id, user_id, until_date=None, timeout=None,
     return result
 
 
-def tlg_user_is_admin(bot, user_id, chat_id, timeout=None):
+def tlg_user_is_admin(bot, join_user_id, chat_id, timeout=None):
     '''Check if the specified user is an Administrator of a group given
     by IDs'''
     # Check if it is an Admin with anonymous config enabled
-    if user_id == ANONYMOUS_ADMIN_ID:
+    if join_user_id == ANONYMOUS_ADMIN_ID:
         print("tlg_user_is_admin user_id = ANONYMOUS_ADMIN_ID")
         return True
     # Get group Admins
@@ -233,8 +233,8 @@ def tlg_user_is_admin(bot, user_id, chat_id, timeout=None):
     # Check if the user is one of the group Admins
     for admin in group_admins:
         print("tlg_user_is_admin admin {}".format(admin))
-        if user_id == admin.user.id:
-            print("tlg_user_is_admin user_id ({}) in admins".format(user_id))
+        if join_user_id == admin.user.id:
+            print("tlg_user_is_admin user_id ({}) in admins".format(join_user_id))
             return True
     return False
 
