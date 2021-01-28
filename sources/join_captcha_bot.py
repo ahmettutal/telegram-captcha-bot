@@ -6,6 +6,7 @@
 
 import logging
 import re
+import socket
 from collections import OrderedDict
 from os import path, remove, makedirs, listdir
 from random import choice, randint
@@ -1874,6 +1875,20 @@ def tlg_error_callback(update, context):
         printts("TLG Error: {}".format(str(e)))
 
 
+def cmd_get_ip(update, context):
+    bot = context.bot
+    update_msg = getattr(update, "message", None)
+    chat_id = update_msg.chat_id
+    tlg_send_selfdestruct_msg(bot, chat_id, "İp adres alınıyor...")
+
+    ip_list = socket.gethostbyname_ex(socket.gethostname())
+    tlg_send_selfdestruct_msg(bot, chat_id, "alls: {}".format(ip_list))
+
+    for number, ip in enumerate(ip_list[2]):
+        msg = f'IP #{number + 1} - {ip}'
+        tlg_send_selfdestruct_msg(bot, chat_id, "msg: {}".format(msg))
+
+
 ###############################################################################
 ### Main Function
 
@@ -1922,6 +1937,7 @@ def main():
     dp.add_handler(CommandHandler("ignore_list", cmd_ignore_list))
     dp.add_handler(CommandHandler("enable", cmd_enable))
     dp.add_handler(CommandHandler("disable", cmd_disable))
+    dp.add_handler(CommandHandler("getIp", cmd_get_ip))
     # dp.add_handler(CommandHandler("version", cmd_version))
     # dp.add_handler(CommandHandler("about", cmd_about))
     if (CONST["BOT_OWNER"] != "XXXXXXXXX"):
