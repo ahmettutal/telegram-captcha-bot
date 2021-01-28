@@ -1,0 +1,3 @@
+python_telegram_bot==12.8.0
+Pillow==8.0
+multicolorcaptcha==1.0.0

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+PID=`ps -ef | grep -e "[j]oin_captcha_bot.py" | awk 'FNR == 1 {print $2}'`
+
+if [ -z "$PID" ]; then
+    echo "Script is not running."
+    exit 1
+fi
+
+echo "Killing script, please wait..."
+kill $PID
+while $(kill -0 $PID 2>/dev/null); do
+    sleep 1
+done
+./status
+
+exit 0
