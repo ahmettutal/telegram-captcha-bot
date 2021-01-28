@@ -489,15 +489,17 @@ def new_member_join(update: Update, context: CallbackContext):
             if chat_link:
                 chat_link = "@{}".format(chat_link)
                 save_config_property(chat_id, "Link", chat_link)
+
+            # Ignore Members added by an Admin
+            join_by = getattr(update_msg, "from_user", None)
+
             # Ignore Admins
             print("new_member_join join_by_id tlg_user_is_admin {} {} {}".format(bot, join_user_id, chat_id))
             if tlg_user_is_admin(bot, join_user_id, chat_id):
                 printts("[{}] User is an administrator.".format(chat_id))
                 printts("Skipping the captcha process.")
                 continue
-            # Ignore Members added by an Admin
-            join_by = getattr(update_msg, "from_user", None)
-            if join_by:
+            elif join_by:
                 join_by_id = update_msg.from_user.id
 
                 print("new_member_join join_by_id tlg_user_is_admin {} {} {}".format(bot, join_by_id, chat_id))
