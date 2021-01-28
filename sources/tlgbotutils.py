@@ -232,6 +232,7 @@ def tlg_user_is_admin(bot, user_id, chat_id, timeout=None):
         return None
     # Check if the user is one of the group Admins
     for admin in group_admins:
+        print("tlg_user_is_admin admin ".format(admin))
         if user_id == admin.user.id:
             print("tlg_user_is_admin user_id ({}) in admins".format(user_id))
             return True
