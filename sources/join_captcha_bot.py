@@ -958,8 +958,19 @@ def cmd_start(update: Update, context: CallbackContext):
     update_msg = getattr(update, "message", None)
     if update_msg is None:
         return
-    chat_id = update_msg.chat_id
+
     chat_type = update_msg.chat.type
+    chat_id = update_msg.chat_id
+    user_id = update_msg.from_user.id
+    lang = get_chat_config(chat_id, "Language")
+    # Check if command was execute by an Admin
+    is_admin = tlg_user_is_admin(bot, user_id, chat_id)
+    if is_admin is None:
+        tlg_send_selfdestruct_msg(bot, chat_id, TEXT[lang]["CAN_NOT_GET_ADMINS"])
+        return
+    if not is_admin:
+        tlg_send_selfdestruct_msg(bot, chat_id, TEXT[lang]["CMD_NOT_ALLOW"])
+        return
     if chat_type == "private":
         tlg_send_msg(bot, chat_id, TEXT["TR"]["START"])
     else:
@@ -975,8 +986,19 @@ def cmd_help(update: Update, context: CallbackContext):
     update_msg = getattr(update, "message", None)
     if update_msg is None:
         return
-    chat_id = update_msg.chat_id
+
     chat_type = update_msg.chat.type
+    chat_id = update_msg.chat_id
+    user_id = update_msg.from_user.id
+    lang = get_chat_config(chat_id, "Language")
+    # Check if command was execute by an Admin
+    is_admin = tlg_user_is_admin(bot, user_id, chat_id)
+    if is_admin is None:
+        tlg_send_selfdestruct_msg(bot, chat_id, TEXT[lang]["CAN_NOT_GET_ADMINS"])
+        return
+    if not is_admin:
+        tlg_send_selfdestruct_msg(bot, chat_id, TEXT[lang]["CMD_NOT_ALLOW"])
+        return
     if chat_type == "private":
         tlg_send_msg(bot, chat_id, TEXT["TR"]["HELP"])
     else:
@@ -992,8 +1014,20 @@ def cmd_commands(update: Update, context: CallbackContext):
     update_msg = getattr(update, "message", None)
     if update_msg is None:
         return
-    chat_id = update_msg.chat_id
+
     chat_type = update_msg.chat.type
+    chat_id = update_msg.chat_id
+    user_id = update_msg.from_user.id
+    lang = get_chat_config(chat_id, "Language")
+    # Check if command was execute by an Admin
+    is_admin = tlg_user_is_admin(bot, user_id, chat_id)
+    if is_admin is None:
+        tlg_send_selfdestruct_msg(bot, chat_id, TEXT[lang]["CAN_NOT_GET_ADMINS"])
+        return
+    if not is_admin:
+        tlg_send_selfdestruct_msg(bot, chat_id, TEXT[lang]["CMD_NOT_ALLOW"])
+        return
+
     if chat_type == "private":
         tlg_send_msg(bot, chat_id, TEXT["TR"]["COMMANDS"])
     else:
