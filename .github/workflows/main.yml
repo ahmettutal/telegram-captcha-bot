@@ -18,7 +18,8 @@ jobs:
           script: |
             pwd
             cd /home/ubuntu/telegram-captcha-bot/
-            git pull
-            cd /home/ubuntu/telegram-captcha-bot/sources/
-            ./status
-            ./restart
+            pwd
+#            git pull
+#            cd /home/ubuntu/telegram-captcha-bot/sources/
+#            ./status
+#            ./restart
