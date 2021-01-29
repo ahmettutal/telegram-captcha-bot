@@ -1,0 +1,23 @@
+name: CI
+on:
+  push:
+    branches:
+      - 'prod'
+      - '!master'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy App
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOST}}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/ubuntu/telegram-captcha-bot/
+            git pull
+            cd sources/
+            ./status
+            ./restart
