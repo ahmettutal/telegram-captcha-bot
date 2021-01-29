@@ -17,9 +17,3 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             pwd
-            cd /home/ubuntu/telegram-captcha-bot/
-            pwd
-#            git pull
-#            cd /home/ubuntu/telegram-captcha-bot/sources/
-#            ./status
-#            ./restart
