@@ -7,8 +7,10 @@ on:
 
 jobs:
   deploy:
+    env:
+      hozt: ${{secrets:SSH_HOST}}
     runs-on: ubuntu-latest
     steps:
       - name: Deploy App
-        run:
-          echo ${{secrets:SSH_HOST}}
+      - run:
+          echo $hozt
