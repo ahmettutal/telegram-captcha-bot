@@ -10,10 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy App
-        uses: appleboy/ssh-action@v0.1.2
-        with:
-          host: ${{secrets.SSH_HOST}}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            pwd
+        run:
+          echo ${{secrets:SSH_HOST}}
