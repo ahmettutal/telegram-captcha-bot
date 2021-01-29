@@ -11,7 +11,8 @@ jobs:
     steps:
       - id: DeployBot
         run:
-          cd /home/ubuntu/telegram-captcha-bot/
+          pwd
+#          cd /home/ubuntu/telegram-captcha-bot/
 #          git pull
 #          cd /home/ubuntu/telegram-captcha-bot/sources/
 #          ./status
