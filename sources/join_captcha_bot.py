@@ -821,11 +821,15 @@ def msg_nocmd(update: Update, context: CallbackContext):
 
 def key_inline_keyboard(update: Update, context: CallbackContext):
     '''Inline Keyboard button pressed handler'''
+
+    print("key_inline_keyboard begin")
+
     bot = context.bot
     query = update.callback_query
     # Confirm query received
     query_ans_result = tlg_answer_callback_query(bot, query)
     if query_ans_result["error"] != "":
+        print("key_inline_keyboard errorz: {}".format(query_ans_result["error"]))
         return
     # Convert query provided data into list
     button_data = query.data.split(" ")
@@ -834,6 +838,9 @@ def key_inline_keyboard(update: Update, context: CallbackContext):
         return
     # Get type of inline keyboard button pressed and user ID associated to that button
     key_pressed = button_data[0]
+
+    print("key_inline_keyboard key_pressed: {}".format(key_pressed))
+
     # Check and handle "request new img captcha" or "button captcha challenge" buttons
     if "image_captcha" in key_pressed:
         button_request_captcha(bot, query)
@@ -903,6 +910,9 @@ def button_request_pass(bot, query):
     # If has an alias, just use the alias
     if query.from_user.username is not None:
         user_name = "@{}".format(query.from_user.username)
+
+    print("user_name: {}".format(user_name))
+
     chat_title = query.message.chat.title
     # Add an unicode Left to Right Mark (LRM) to chat title (fix for arabic, hebrew, etc.)
     chat_title = add_lrm(chat_title)
