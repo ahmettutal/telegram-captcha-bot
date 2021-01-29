@@ -18,6 +18,6 @@ jobs:
           script: |
             cd /home/ubuntu/telegram-captcha-bot/
             git pull
-            cd sources/
+            cd /home/ubuntu/telegram-captcha-bot/sources/
             ./status
             ./restart
