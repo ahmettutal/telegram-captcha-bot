@@ -12,7 +12,7 @@ jobs:
       - id: DeployBot
         run:
           cd /home/ubuntu/telegram-captcha-bot/
-          git pull
-          cd /home/ubuntu/telegram-captcha-bot/sources/
-          ./status
-          ./restart
+#          git pull
+#          cd /home/ubuntu/telegram-captcha-bot/sources/
+#          ./status
+#          ./restart
