@@ -16,4 +16,5 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /home/ubuntu/telegram-captcha-bot/
+            #            cd /home/ubuntu/telegram-captcha-bot/
+                    echo $username
