@@ -1,218 +1,175 @@
-# telegram-captcha-bot
+# tgbot
 
-Bot to verify if a new user, who joins a group, is a human. The Bot sends an image captcha for each new user, and kicks any of them that can't solve the captcha
-in a specified amount of time. Also, any message that contains an URL sent by a new "user" before captcha completion will be considered Spam and will be
-deleted.
+A modular telegram Python bot running on python3 with an sqlalchemy database.
 
-## Donate
+Originally a simple group management bot with multiple admin features, it has evolved into becoming a basis for modular bots aiming to provide simple plugin
+expansion via a simple drag and drop.
 
-Do you like this Bot? Buy me a coffee :)
+Can be found on telegram as [Marie](https://t.me/BanhammerMarie_bot).
 
-BTC:
-3N9wf3FunR6YNXonquBeWammaBZVzTXTyR
+For questions regarding creating your own bot, please head to [this chat](https://t.me/MarieOT) where you'll find a group of volunteers to help. We'll also help
+when a database schema changes, and some table column needs to be modified/added (this info can also be found in the commit messages)
 
-## Installation
+Join the [news channel](https://t.me/MarieNews) if you just want to stay in the loop about new features or announcements.
 
-Note: Use Python 3 to install and run the Bot, Python 2 support could be broken.
+Marie and I can also be found moderating the [marie support group](https://t.me/atutal) aimed at providing help setting up Marie in your chats (*not* for bot
+clones). Feel free to join to report bugs, and stay in the loop on the status of the bot development.
 
-To generate Captchas, the Bot uses [multicolor_captcha_generator library](https://github.com/J-Rios/multicolor_captcha_generator), wich uses Pillow to generate
-the images.
+Note to maintainers that all schema changes will be found in the commit messages, and its their responsibility to read any new commits.
 
-1. Install Pillow prerequisites:
+## IMPORTANT NOTICE:
 
-    ```bash
-    apt-get install -y libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python-tk
-    ```
+This project is no longer under active maintenance. Occasional bug fixes may be released, but no new features are scheduled to be added. Users
+of [Marie](https://t.me/BanhammerMarie_bot) are encouraged to migrate to [Rose](https://t.me/MissRose_bot), which is the improved version of this project,
+written in golang, with scalability in mind.
 
-2. Get the project and install CaptchaBot requirements:
+## Starting the bot.
 
-    ```bash
-    git clone https://github.com/ahmettutal/telegram-captcha-bot
-    pip install -r telegram-captcha-bot/requirements.txt
-    ```
+Once you've setup your database and your configuration (see below) is complete, simply run:
 
-3. Go to project sources and give execution permission to usage scripts:
+`python3 -m tg_bot`
 
-    ```bash
-    cd telegram-captcha-bot/sources
-    chmod +x run status kill
-    ```
+## Setting up the bot (Read this before trying to use!):
 
-4. Specify Telegram Bot account Token (get it from @BotFather) in "settings.py" file:
+Please make sure to use python3.6, as I cannot guarantee everything will work as expected on older python versions!
+This is because markdown parsing is done by iterating through a dict, which are ordered by default in 3.6.
 
-    ```python
-    'TOKEN' : 'XXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-    ```
+### Configuration
 
-## Usage
+There are two possible ways of configuring your bot: a config.py file, or ENV variables.
 
-To ease usage a `run`, `status`, and `kill` scripts have been provided.
+The prefered version is to use a `config.py` file, as it makes it easier to see all your settings grouped together. This file should be placed in your `tg_bot`
+folder, alongside the `__main__.py` file . This is where your bot token will be loaded from, as well as your database URI (if you're using a database), and most
+of your other settings.
 
-- Launch the Bot:  
-  `./run`
+It is recommended to import sample_config and extend the Config class, as this will ensure your config contains all defaults set in the sample_config, hence
+making it easier to upgrade.
 
-- Check if the script is running:  
-  `./status`
+An example `config.py` file could be:
 
-- Stop the Bot:  
-  `./kill`
+```
+from tg_bot.sample_config import Config
 
-## Systemd service
 
-For systemd based systems, you can setup the Bot as daemon service.
-
-To do that, you need to create a new service description file for the Bot as follow:
-
-```bash
-[vim or nano] /etc/systemd/system/bot.service
+class Development(Config):
+    OWNER_ID = 254318997  # my telegram ID
+    OWNER_USERNAME = "SonOfLars"  # my telegram username
+    API_KEY = "your bot api key"  # my api key, as provided by the botfather
+    SQLALCHEMY_DATABASE_URI = 'postgresql://username:password@localhost:5432/database'  # sample db credentials
+    MESSAGE_DUMP = '-1234567890' # some group chat that your bot is a member of
+    USE_MESSAGE_DUMP = True
+    SUDO_USERS = [18673980, 83489514]  # List of id's for users which have sudo access to the bot.
+    LOAD = []
+    NO_LOAD = ['translation']
 ```
 
-File content:
+If you can't have a config.py file (EG on heroku), it is also possible to use environment variables. The following env variables are supported:
 
-```bash
-[Unit]
-Description=Bot Telegram Daemon
-Wants=network-online.target
-After=network-online.target
+- `ENV`: Setting this to ANYTHING will enable env variables
 
-[Service]
-Type=forking
-WorkingDirectory=/path/to/dir/sources/
-ExecStart=/path/to/dir/sources/run
-ExecReload=/path/to/dir/sources/kill
+- `TOKEN`: Your bot token, as a string.
+- `OWNER_ID`: An integer of consisting of your owner ID
+- `OWNER_USERNAME`: Your username
 
-[Install]
-WantedBy=multi-user.target
-```
+- `DATABASE_URL`: Your database URL
+- `MESSAGE_DUMP`: optional: a chat where your replied saved messages are stored, to stop people deleting their old
+- `LOAD`: Space separated list of modules you would like to load
+- `NO_LOAD`: Space separated list of modules you would like NOT to load
+- `WEBHOOK`: Setting this to ANYTHING will enable webhooks when in env mode messages
+- `URL`: The URL your webhook should connect to (only needed for webhook mode)
 
-Then, to add the new service into systemd, you should enable it:
+- `SUDO_USERS`: A space separated list of user_ids which should be considered sudo users
+- `SUPPORT_USERS`: A space separated list of user_ids which should be considered support users (can gban/ungban, nothing else)
+- `WHITELIST_USERS`: A space separated list of user_ids which should be considered whitelisted - they can't be banned.
+- `DONATION_LINK`: Optional: link where you would like to receive donations.
+- `CERT_PATH`: Path to your webhook certificate
+- `PORT`: Port to use for your webhooks
+- `DEL_CMDS`: Whether to delete commands from users which don't have rights to use that command
+- `STRICT_GBAN`: Enforce gbans across new groups as well as old groups. When a gbanned user talks, he will be banned.
+- `WORKERS`: Number of threads to use. 8 is the recommended (and default) amount, but your experience may vary.
+  __Note__ that going crazy with more threads wont necessarily speed up your bot, given the large amount of sql data accesses, and the way python asynchronous
+  calls work.
+- `BAN_STICKER`: Which sticker to use when banning people.
+- `ALLOW_EXCL`: Whether to allow using exclamation marks ! for commands as well as /.
 
-```bash
-systemctl enable --now bot.service
-```
+### Python dependencies
 
-Remember that, if you wan't to disable it, you should execute:
+Install the necessary python dependencies by moving to the project directory and running:
 
-```bash
-systemctl disable bot.service
-```
+`pip3 install -r requirements.txt`.
 
-## Docker
+This will install all necessary python packages.
 
-You can also run the bot on [Docker](https://docs.docker.com/get-started/). This allows easy server migration and automates the download of all dependencies.
-Look at the
-[docker specific documentation](docker/README.md) for more details about how to create a Docker Container for Captcha Bot.
+### Database
 
-## Bot Owner
+If you wish to use a database-dependent module (eg: locks, notes, userinfo, users, filters, welcomes), you'll need to have a database installed on your system.
+I use postgres, so I recommend using it for optimal compatibility.
 
-The **Bot Owner** can run special commands that no one else can use, like /allowgroup (if the Bot is private, this allow groups where the Bot can be used) or
-/whitelist (to make Bot don't ask for captcha to some users, useful for blind users).
+In the case of postgres, this is how you would set up a the database on a debian/ubuntu system. Other distributions may vary.
 
-You can setup a Bot Owner by specifying the Telegram User ID or Alias in "settings.py" file:
+- install postgresql:
 
-```python
-"BOT_OWNER": "@atutal",
-```
+`sudo apt-get update && sudo apt-get install postgresql`
 
-## Make Bot Private
+- change to the postgres user:
 
-By default, the Bot is **Public**, so any Telegram user can add and use the Bot in any group, but you can set it to be **Private** so the Bot just can be used
-in allowed groups (Bot owner allows them with **/allow_group** command).
+`sudo su - postgres`
 
-You can set Bot to be Private in "settings.py" file:
+- create a new database user (change YOUR_USER appropriately):
 
-```python
-"BOT_PRIVATE" : True,
-```
+`createuser -P -s -e YOUR_USER`
 
-**Note:** If you have a Public Bot and set it to Private, it will leave any group where is not allowed to be used when a new user joins.
+This will be followed by you needing to input your password.
 
-**Note:** Telegram Private Groups could changes their chat ID when it become a public supergroup, so the Bot will leave the group and the owner has to set the
-new group chat ID with /allow_group.
+- create a new database table:
 
-## Scalability (Polling or Webhook)
+`createdb -O YOUR_USER YOUR_DB_NAME`
 
-By default, Bot checks and receives updates from Telegram Servers by **Polling** (requests and get if there is any new updates in the Bot account corresponding
-to that Bot Token), this is really simple and can be used for low to median scale Bots. However, you can configure the Bot to use a **Webhook** instead if you
-expect to handle a large number of users/groups.
+Change YOUR_USER and YOUR_DB_NAME appropriately.
 
-To use Webhook instead Polling, you need a signed certificate file in the system, you can create the key file and self-sign the cert through openssl tool:
+- finally:
 
-```bash
-openssl req -newkey rsa:2048 -sha256 -nodes -keyout private.key -x509 -days 3650 -out cert.pem
-```
+`psql YOUR_DB_NAME -h YOUR_HOST YOUR_USER`
 
-Once you have the key and cert files, setup the next lines in "settings.py" file to point to expected Webhook Host address, port and certificate file:
+This will allow you to connect to your database via your terminal. By default, YOUR_HOST should be 0.0.0.0:5432.
 
-```python
-"WEBHOOK_HOST": "Current system IP/DNS here",
-"WEBHOOK_PORT": 8443,
-"WEBHOOK_CERT" : SCRIPT_PATH + "/cert.pem",
-"WEBHOOK_CERT_PRIV_KEY" : SCRIPT_PATH + "/private.key",
-```
+You should now be able to build your database URI. This will be:
 
-To use Polling instead Webhook, just set host value back to none:
+`sqldbtype://username:pw@hostname:port/db_name`
 
-```python
-"WEBHOOK_HOST": "None",
-```
+Replace sqldbtype with whichever db youre using (eg postgres, mysql, sqllite, etc)
+repeat for your username, password, hostname (localhost?), port (5432?), and db name.
 
-## Environment Variables Setup
+## Modules
 
-You can setup some Bot properties manually changing their values in settings.py file, but also you can use enviroment variables to setup all that properties (
-this is really useful for advance deployment when using [Virtual Enviroments](https://docs.python.org/3/tutorial/venv.html)
-and/or [Docker](https://docs.docker.com/get-started/) to isolate the Bot process execution).
+### Setting load order.
 
-## Adding a New Language
+The module load order can be changed via the `LOAD` and `NO_LOAD` configuration settings. These should both represent lists.
 
-Actual language support is based on external JSON files that contain all bot texts for each language.
+If `LOAD` is an empty list, all modules in `modules/` will be selected for loading by default.
 
-To add support for a new language you must follow this steps:
+If `NO_LOAD` is not present, or is an empty list, all modules selected for loading will be loaded.
 
-1. Fork the project repository, clone it and create a new branch to work on it (i.e. named language-support-en).
+If a module is in both `LOAD` and `NO_LOAD`, the module will not be loaded - `NO_LOAD` takes priority.
 
-2. Copy from one of the existing language JSON files from [here](https://github.com/J-Rios/telegram-captcha-bot/tree/master/sources/language) to a new one.
+### Creating your own modules.
 
-3. Change the name of that file for the language ISO Code of the language that you want.
+Creating a module has been simplified as much as possible - but do not hesitate to suggest further simplification.
 
-4. Translate each text from JSON key values of the file without breaking the JSON format/structure (it should be valid for JSON parsers) and maintaining JSON
-   key names. Keep command names in english (i.e. don't translate "START", "HELP"... /start /help ...) and don't remove special characters (like {}, ", ',
-   \n...) too!
+All that is needed is that your .py file be in the modules folder.
 
-5. Make a pull request of that branch with the new language file into this repository and wait for it to be accepted.
+To add commands, make sure to import the dispatcher via
 
-6. Then, I will make the integration into source code and actual Bot account (@join_captcha_bot).
+`from tg_bot import dispatcher`.
 
-7. Enjoy the new language :)
+You can then add commands using the usual
 
-## Languages Contributors
+`dispatcher.add_handler()`.
 
-- French: [Mathieu H (@aurnytoraink)](https://github.com/Aurnytoraink)
+Assigning the `__help__` variable to a string describing this modules' available commands will allow the bot to load it and add the documentation for your
+module to the `/help` command. Setting the `__mod_name__` variable will also allow you to use a nicer, user friendly name for a module.
 
-- Italian: Noquitt
+The `__migrate__()` function is used for migrating chats - when a chat is upgraded to a supergroup, the ID changes, so it is necessary to migrate it in the db.
 
-- Portuguese (Brazil): Anahuac de Paula Gil
-
-- Catalán: Adela Casals i Jorba
-
-- Galician: [Fernando Flores (Fer6Flores)](https://github.com/Fer6Flores); Iváns
-
-- Basque: [@xa2er](https://github.com/xa2er)
-
-- Chinese (Mainland): [神林](https://github.com/jyxjjj)
-
-- Indonesian: ForIndonesian
-
-- [Unsupported, not working] Persian (Iran): [sajjad taheri](https://github.com/tgMember)
-
-- Russian: Unattributed (anonymous), [@stezkoy](https://github.com/Stezkoy)
-
-- Esperanto: Pablo Busto & Porrumentzio.
-
-- Arabic: [@damascene](https://github.com/damascene)
-
-- Dutch: [@weerdenburg](https://github.com/weerdenburg)
-
-- Ukrainian: Vadym Zhushman (@zhushman00)
-
-- Kannada: [@itsAPK](https://github.com/itsAPK)
+The `__stats__()` function is for retrieving module statistics, eg number of users, number of chats. This is accessed through the `/stats` command, which is
+only available to the bot owner.

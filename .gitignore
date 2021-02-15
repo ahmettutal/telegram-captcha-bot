@@ -1,6 +1,6 @@
-sources/.vscode/
-sources/__pycache__/
-sources/data/
+removed-sources/.vscode/
+removed-sources/__pycache__/
+removed-sources/data/
 data/
 *.pyc
 *.log
