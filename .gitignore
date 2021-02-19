@@ -42,3 +42,5 @@ build/
 ### VS Code ###
 .vscode/
 /logs/dev/spring.log
+
+/tg_bot/config.py
